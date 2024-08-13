@@ -46,13 +46,11 @@ async function main(){
         console.log(Members.form.getData());
         let _member = Members.form.getData();
         Members.service.add(_member);
-        Members.data = await Members.service.getlist();
-        renderTable();
+        reloadTable();
     });
 
     Members.form.buttonGetAll.addEventListener('click', async function(){
-        Members.data = await Members.service.getlist();
-        renderTable();
+        reloadTable();
     });
 
 
