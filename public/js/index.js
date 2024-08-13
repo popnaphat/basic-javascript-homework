@@ -32,10 +32,15 @@ function renderTable() {
    
 
 }
+async function reloadTable(){
+    Members.data = await Members.service.getlist();
+    renderTable();
+}
     
 async function main(){
 
     helloMyJs();
+    reloadTable();
 
     Members.form.buttonAdd.addEventListener('click', async function(){
         console.log(Members.form.getData());
