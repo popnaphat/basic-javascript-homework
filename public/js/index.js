@@ -1,7 +1,22 @@
 import { Members } from "./members/index.js";
 
-import { helloMyJs } from "./myjs.js";
-
+//import { helloMyJs } from "./myjs.js";
+let thaiProvinceData = null;
+async function getData() {
+    const url =
+      'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json';
+  
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
 let tbodyMembers = document.getElementById('tbodyMembers');
 
@@ -39,11 +54,11 @@ async function reloadTable(){
     
 async function main(){
 
-    helloMyJs();
+    //helloMyJs();
     reloadTable();
 
     Members.form.buttonAdd.addEventListener('click', async function(){
-        console.log(Members.form.getData());
+        //console.log(Members.form.getData());
         let _member = Members.form.getData();
         Members.service.add(_member);
         reloadTable();
@@ -53,7 +68,12 @@ async function main(){
         reloadTable();
     });
 
-
+    thaiProvinceData = await getData();
+    document.getElementById('btnShowData').addEventListener('click', (event) => {
+      event.preventDefault(); 
+      console.log(thaiProvinceData)
+      
+    });
 
 };
 

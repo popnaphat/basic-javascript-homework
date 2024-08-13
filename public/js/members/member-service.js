@@ -9,7 +9,7 @@ async function getData() {
         }
 
         const json = await response.json();
-        console.log(json);
+        //console.log(json);
         return json;
 
     } catch (error) {
@@ -40,7 +40,7 @@ async function addMember(member) {
 
     let response = await fetch(request);
     let result = await response.json();
-    console.log(result);
+    //console.log(result);
 
     return result;
 
