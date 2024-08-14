@@ -146,27 +146,13 @@ async function main(){
             const selectedProvinceId = provinceSelect.value;
             const selectedAmphureId = amphureSelect.value;
             const selectedTambonId = this.value;
-            // console.log(selectedProvinceId)
-            // console.log(selectedAmphureId)
-            // console.log(provinceData[selectedProvinceId-1].amphure.filter(_amphure => _amphure.id == selectedAmphureId)[0].tambon.filter(_tambon => _tambon.id == selectedTambonId)[0].zip_code)
             selectedZipCode = provinceData[selectedProvinceId-1].amphure.filter(_amphure => _amphure.id == selectedAmphureId)[0].tambon.filter(_tambon => _tambon.id == selectedTambonId)[0].zip_code;
             zipCodeDisplay.textContent =`รหัสไปรษณีย์: ${selectedZipCode}`;
-            //const selectedProvince = provinceData.find(p => p.province_id === selectedProvinceId);
 
-            // if (selectedProvince) {
-            //     const selectedAmphure = selectedProvince.amphures.find(a => a.amphure_id === selectedAmphureId);
-            //     if (selectedAmphure) {
-            //         const selectedTambon = selectedAmphure.tambons.find(t => t.tambon_id === selectedTambonId);
-            //         if (selectedTambon) {
-            //             zipCodeDisplay.textContent = `รหัสไปรษณีย์: ${selectedTambon.zipcode}`;
-            //         }
-            //     }
-            // }
         });
-
-        // Fetch data when the document is loaded
         fetchData();
     });
+    
     document.getElementById('submitZipCode').addEventListener('click', ()=>{
       document.getElementById('txtZipCode').value = selectedZipCode;
       bootstrap.Modal.getInstance(document.getElementById('exampleModal')).hide();
