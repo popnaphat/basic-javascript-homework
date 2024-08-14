@@ -95,19 +95,36 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">เลือกจังหวัด อำเภอ ตำบล และดูรหัสไปรษณีย์</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div id="filters"></div>
+              
+              <label for="province">จังหวัด:</label>
+              <select id="province">
+                  <option value="">เลือกจังหวัด</option>
+              </select>
+          
+              <label for="amphure">อำเภอ:</label>
+              <select id="amphure">
+                  <option value="">เลือกอำเภอ</option>
+              </select>
+          
+              <label for="tambon">ตำบล:</label>
+              <select id="tambon">
+                  <option value="">เลือกตำบล</option>
+              </select>
+          
+              <p id="zip-code"></p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+              <button type="button" id="submitZipCode" class="btn btn-primary">ยืนยันรหัสไปรษณีย์</button>
             </div>
           </div>
         </div>
       </div>
+      
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

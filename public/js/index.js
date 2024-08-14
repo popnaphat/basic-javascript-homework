@@ -1,7 +1,7 @@
 import { Members } from "./members/index.js";
 
 //import { helloMyJs } from "./myjs.js";
-let thaiProvinceData = null;
+//let thaiProvinceData = null;
 async function getData() {
     const url =
       'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json';
@@ -51,7 +51,9 @@ async function reloadTable(){
     Members.data = await Members.service.getlist();
     renderTable();
 }
-    
+ 
+
+
 async function main(){
 
     //helloMyJs();
@@ -68,13 +70,107 @@ async function main(){
         reloadTable();
     });
 
-    thaiProvinceData = await getData();
+   let selectedZipCode;
     document.getElementById('btnShowData').addEventListener('click', (event) => {
       event.preventDefault(); 
-      console.log(thaiProvinceData)
       
-    });
+        const provinceSelect = document.getElementById('province');
+        const amphureSelect = document.getElementById('amphure');
+        const tambonSelect = document.getElementById('tambon');
+        const zipCodeDisplay = document.getElementById('zip-code');
+        let provinceData = null;
 
+        async function fetchData() {
+            try {
+              provinceData = await getData();
+              populateProvinces();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        function populateProvinces() {
+            provinceData.forEach(province => {
+                let option = document.createElement('option');
+                option.value = province.id;
+                
+                option.textContent = province.name_th;
+                
+                provinceSelect.appendChild(option);
+            });
+        }
+
+        provinceSelect.addEventListener('change', async function() {
+            amphureSelect.innerHTML = '<option value="">เลือกอำเภอ</option>';
+            tambonSelect.innerHTML = '<option value="">เลือกตำบล</option>';
+            zipCodeDisplay.textContent = '';
+
+            const selectedProvinceId = this.value;
+            const selectedProvince = provinceData[selectedProvinceId-1];
+            
+            if (selectedProvince) {
+                selectedProvince.amphure.forEach(amphure => {
+                    let option = document.createElement('option');
+                    option.value = amphure.id;
+                    // console.log(amphure.name_th)
+                    option.textContent = amphure.name_th;
+                    amphureSelect.appendChild(option);
+                });
+            }
+        });
+
+        amphureSelect.addEventListener('change', async function() {
+            tambonSelect.innerHTML = '<option value="">เลือกตำบล</option>';
+            zipCodeDisplay.textContent = '';
+
+            const selectedProvinceId = provinceSelect.value;
+            //console.log(selectedProvinceId)
+            const selectedAmphureId = this.value;
+            //console.log(selectedAmphureId)
+            const selectedAmphureData = provinceData[selectedProvinceId-1].amphure.filter(_amphure => _amphure.id == selectedAmphureId)[0];
+            //console.log(provinceData[selectedProvinceId-1].amphure.filter(_amphure => _amphure.id == selectedAmphureId)[0])
+            if (selectedAmphureData) {
+                
+                    selectedAmphureData.tambon.forEach(tambon => {
+                        let option = document.createElement('option');
+                        option.value = tambon.id;
+                        option.textContent = tambon.name_th;
+                        tambonSelect.appendChild(option);
+                        // console.log(tambon.id +'<br>'+tambon.zip_code)
+                    });
+                
+            }
+        });
+
+        tambonSelect.addEventListener('change', function() {
+            const selectedProvinceId = provinceSelect.value;
+            const selectedAmphureId = amphureSelect.value;
+            const selectedTambonId = this.value;
+            // console.log(selectedProvinceId)
+            // console.log(selectedAmphureId)
+            // console.log(provinceData[selectedProvinceId-1].amphure.filter(_amphure => _amphure.id == selectedAmphureId)[0].tambon.filter(_tambon => _tambon.id == selectedTambonId)[0].zip_code)
+            selectedZipCode = provinceData[selectedProvinceId-1].amphure.filter(_amphure => _amphure.id == selectedAmphureId)[0].tambon.filter(_tambon => _tambon.id == selectedTambonId)[0].zip_code;
+            zipCodeDisplay.textContent =`รหัสไปรษณีย์: ${selectedZipCode}`;
+            //const selectedProvince = provinceData.find(p => p.province_id === selectedProvinceId);
+
+            // if (selectedProvince) {
+            //     const selectedAmphure = selectedProvince.amphures.find(a => a.amphure_id === selectedAmphureId);
+            //     if (selectedAmphure) {
+            //         const selectedTambon = selectedAmphure.tambons.find(t => t.tambon_id === selectedTambonId);
+            //         if (selectedTambon) {
+            //             zipCodeDisplay.textContent = `รหัสไปรษณีย์: ${selectedTambon.zipcode}`;
+            //         }
+            //     }
+            // }
+        });
+
+        // Fetch data when the document is loaded
+        fetchData();
+    });
+    document.getElementById('submitZipCode').addEventListener('click', ()=>{
+      document.getElementById('txtZipCode').value = selectedZipCode;
+      bootstrap.Modal.getInstance(document.getElementById('exampleModal')).hide();
+    })
 };
 
 main();
