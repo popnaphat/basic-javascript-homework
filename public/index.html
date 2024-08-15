@@ -51,8 +51,8 @@
         </div>
         <div class="col">
           <button type="button" id="btnGetAll" class="btn btn-primary">Get All</button>
-          <button type="button" id="btnAdd" class="btn btn-primary">ADD</button>
-          <button type="button" id="btnShowData" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <button type="button" id="btnAdd" class="btn btn-success">ADD</button>
+          <button type="button" id="btnShowData" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             ZipTool
           </button> 
     
@@ -99,22 +99,24 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              
+              <div class="col-12 mb-3">
               <label for="province">จังหวัด:</label>
               <select id="province">
                   <option value="">เลือกจังหวัด</option>
               </select>
-          
+            </div>
+            <div class="col-12 mb-3">
               <label for="amphure">อำเภอ:</label>
               <select id="amphure">
                   <option value="">เลือกอำเภอ</option>
               </select>
-          
+            </div>
+            <div class="col-12 mb-3">
               <label for="tambon">ตำบล:</label>
               <select id="tambon">
                   <option value="">เลือกตำบล</option>
               </select>
-          
+            </div>
               <p id="zip-code"></p>
             </div>
             <div class="modal-footer">
